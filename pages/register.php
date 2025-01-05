@@ -1,3 +1,26 @@
+<?php
+session_start();
+require_once '../assets/config/config.php';
+require_once '../assets/models/user.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user = new User();
+    $userData = [
+        'nom' => $_POST['fullname'],
+        'prenom' => '',
+        'email' => $_POST['email'],
+        'phone' => '',
+        'password' => $_POST['password']
+    ];
+    
+    if ($user->inscription($userData)) {
+        header('Location: login.php?registered=1');
+        exit();
+    } else {
+        $error = "L'email est déjà utilisé";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,12 +32,12 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="../index.html" class="logo">ArtCulture</a>
+            <a href="../index.php" class="logo">ArtCulture</a>
             <div class="nav-links">
-                <a href="../index.html">Accueil</a>
-                <a href="write.html">Écrire</a>
-                <a href="login.html">Connexion</a>
-                <a href="register.html">S'inscrire</a>
+                <a href="../index.php">Accueil</a>
+                <a href="write.php">Écrire</a>
+                <a href="login.php">Connexion</a>
+                <a href="register.php">S'inscrire</a>
             </div>
         </div>
     </nav>
@@ -45,16 +68,11 @@
                     <input type="password" id="confirm-password" class="form-input" required>
                 </div>
 
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="terms" required>
-                    <label for="terms">J'accepte les conditions d'utilisation et la politique de confidentialité</label>
-                </div>
-
                 <button type="submit" class="registration-button">Créer mon compte</button>
             </form>
 
             <div class="registration-footer">
-                Déjà membre ? <a href="login.html" class="login-link">Se connecter</a>
+                Déjà membre ? <a href="login.php" class="login-link">Se connecter</a>
             </div>
         </div>
     </div>

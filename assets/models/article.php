@@ -1,5 +1,4 @@
 <?php
-
 class Article {
     private $id;
     private $titre;

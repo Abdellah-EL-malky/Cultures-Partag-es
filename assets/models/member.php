@@ -1,5 +1,4 @@
 <?php
-
 class Member extends User {
     public function consulter() {
         $stmt = $this->db->prepare("SELECT * FROM articles WHERE statut = 'validé'");

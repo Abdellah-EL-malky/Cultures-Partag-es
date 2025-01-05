@@ -1,3 +1,24 @@
+<?php
+session_start();
+require_once '../assets/config/config.php';
+require_once '../assets/models/user.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user = new User();
+    if ($user->connexion($_POST['email'], $_POST['password'])) {
+        switch ($_SESSION['user_role']) {
+            case 'admin':
+                header('Location: dashboard.php');
+                break;
+            default:
+                header('Location: index.php');
+        }
+        exit();
+    } else {
+        $error = "Email ou mot de passe incorrect";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,12 +30,12 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="../index.html" class="logo">ArtCulture</a>
+            <a href="../index.php" class="logo">ArtCulture</a>
             <div class="nav-links">
-                <a href="../index.html">Accueil</a>
-                <a href="write.html">Écrire</a>
-                <a href="login.html">Connexion</a>
-                <a href="register.html">S'inscrire</a>
+                <a href="../index.php">Accueil</a>
+                <a href="write.php">Écrire</a>
+                <a href="login.php">Connexion</a>
+                <a href="register.php">S'inscrire</a>
             </div>
         </div>
     </nav>    
@@ -32,7 +53,7 @@
             <button type="submit" class="form-button">Se connecter</button>
         </form>
         <p style="text-align: center; margin-top: 1rem;">
-            Pas encore de compte ? <a href="register.html" style="color: var(--primary-color);">S'inscrire</a>
+            Pas encore de compte ? <a href="register.php" style="color: var(--primary-color);">S'inscrire</a>
         </p>
     </div>
 </body>

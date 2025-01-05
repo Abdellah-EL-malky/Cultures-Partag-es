@@ -1,3 +1,35 @@
+<?php
+session_start();
+require_once '../assets/config/config.php';
+require_once '../assets/models/admin.php';
+
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
+
+$admin = new Admin($_SESSION['user_id']);
+$articles = $admin->consulterArticlesSoumis();
+$users = $admin->consulterUtilisateur();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action'])) {
+        switch ($_POST['action']) {
+            case 'valider_article':
+                $admin->validerArticle($_POST['article_id']);
+                break;
+            case 'refuser_article':
+                $admin->refuserArticle($_POST['article_id'], $_POST['raison'] ?? null);
+                break;
+            case 'create_category':
+                $admin->createCategorie($_POST['nom'], $_POST['description']);
+                break;
+        }
+        header('Location: dashboard.php');
+        exit();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,9 +41,9 @@
 <body>
     <nav class="admin-nav">
         <div class="nav-container">
-            <a href="dashboard.html" class="logo">Admin Dashboard</a>
+            <a href="dashboard.php" class="logo">Admin Dashboard</a>
             <div class="nav-links">
-                <a href="login.html">Déconnexion</a>
+                <a href="login.php">Déconnexion</a>
             </div>
         </div>
     </nav>

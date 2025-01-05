@@ -1,5 +1,4 @@
 <?php
-
 class Author extends User {
     public function createArticle($articleData) {
         $stmt = $this->db->prepare("INSERT INTO articles (titre, description, contenu, categorie_id, auteur_id) 

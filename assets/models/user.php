@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once '../assets/config/config.php';
 
 abstract class User {
     protected $id;

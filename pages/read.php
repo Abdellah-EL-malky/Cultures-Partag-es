@@ -1,3 +1,17 @@
+<?php
+session_start();
+require_once '../assets/config/config.php';
+require_once '../assets/models/article.php';
+
+$articleId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$article = new Article($articleId);
+$articleData = $article->afficherArticle();
+
+if (!$articleData || $articleData['statut'] !== 'validé') {
+    header('Location: index.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,12 +23,12 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="../index.html" class="logo">ArtCulture</a>
+            <a href="../index.php" class="logo">ArtCulture</a>
             <div class="nav-links">
-                <a href="../index.html">Accueil</a>
-                <a href="write.html">Écrire</a>
-                <a href="login.html">Connexion</a>
-                <a href="register.html">S'inscrire</a>
+                <a href="../index.php">Accueil</a>
+                <a href="write.php">Écrire</a>
+                <a href="login.php">Connexion</a>
+                <a href="register.php">S'inscrire</a>
             </div>
         </div>
     </nav>

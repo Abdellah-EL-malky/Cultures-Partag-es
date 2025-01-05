@@ -1,5 +1,4 @@
 <?php
-
 require_once 'auteur.php';
 
 class Admin extends Author {
